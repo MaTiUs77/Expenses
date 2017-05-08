@@ -12,7 +12,9 @@
         "vinkla/hashids": "^2.2",
         "maatwebsite/excel": "~2.1.0",
         "laravelcollective/bus": "^5.2",
-		"arcanedev/log-viewer": "~3.0"
+		"arcanedev/log-viewer": "~3.0",
+		"laravel/socialite": "^2.0"
+
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^2.2",

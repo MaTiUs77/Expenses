@@ -34,5 +34,17 @@ return [
         'key'    => '',
         'secret' => '',
     ],
+	
+	'google' => [
+		'client_id' => '1011318778070-r0a3s67h0vf208vmlej93i7eruak8blr.apps.googleusercontent.com',
+		'client_secret' => 'leLnPx5kJ8lia35zJhyCbqtY',
+		'redirect' => 'http://localhost/expenses/public/auth/google/callback',
+	],
+	
+	'facebook' => [
+		'client_id' => '1875795192638938',
+		'client_secret' => '833d9cd1bb6015b3d1c975be5cbd6c7c',
+		'redirect' => 'http://localhost/expenses/public/auth/facebook/callback',
+	],
 
 ];

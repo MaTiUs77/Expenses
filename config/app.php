@@ -149,7 +149,7 @@ return [
         Collective\Bus\BusServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Arcanedev\LogViewer\LogViewerServiceProvider::class,
-//        Barryvdh\Debugbar\ServiceProvider::class
+		 Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -200,8 +200,8 @@ return [
 
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
 		'SoapWrapper' => Artisaninweb\SoapWrapper\Facades\SoapWrapper::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class
-//        'Debugbar' => Barryvdh\Debugbar\Facade::class
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+		'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
         
     ],

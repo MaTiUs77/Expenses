@@ -11,7 +11,7 @@ class User extends Authenticatable
     use EntrustUserTrait; //hacemos uso del trait en la clase User para hacer uso de sus métodos
 
     protected $fillable = [
-        'name', 'password'
+        'name', 'password', 'email', 'provider', 'provider_id', 'avatar'
     ];
 
     protected $hidden = [

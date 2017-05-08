@@ -1,8 +1,8 @@
 @extends('adminlte/theme')
 @section('ng','app')
 @section('mini',false)
-@section('menutop')
-	@include('finanzas.common.menutop')
+@section('menuaside')
+	@include('finanzas.common.menuaside')
 @endsection
 @section('title','Crear usuario')
 @section('body')

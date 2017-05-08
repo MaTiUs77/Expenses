@@ -1,9 +1,5 @@
 @if(count($cuenta->periodos)>0)
 
-    <?php
-        $orderPeriodos = $cuenta->periodos->sortBy('carbonDate');
-    ?>
-
     <div id="#container{{$cuenta->id}}" style="width: 100%;height:300px;"></div>
 
     <script>
@@ -25,14 +21,14 @@
                     text: 'Resumen'
                 },
                 xAxis: {
-                    categories: ['{!! $orderPeriodos->implode('humanMes', "','")  !!}']
+                    categories: ['{!! $cuenta->periodos->implode('humanMes', "','")  !!}']
                 },
                 series: [
-                    @if($cuenta->tipo==0)
+                    @if($cuenta->id_tipo_cuenta==1)
                     {
                         name: 'Balance',
                         data: [
-                                @foreach($orderPeriodos as $v)
+                                @foreach($cuenta->periodos as $v)
                             {
                                 y: {{ $v->balance }},
                                 @if($v->balance>0)
@@ -51,7 +47,7 @@
                     {
                         name: 'Neto',
                         data: [
-                                @foreach($orderPeriodos as $v)
+                                @foreach($cuenta->periodos as $v)
                             {
                                 y: {{ $v->neto }},
                                 @if($v->neto>0)
@@ -73,7 +69,7 @@
                         type: 'line',
                         color: '#74C274',
                         data: [
-                            @foreach($orderPeriodos as $v)
+                            @foreach($cuenta->periodos as $v)
                                 <?php
                                     $ingreso = $v->ingreso;
                                     if(!is_numeric($ingreso)) { $ingreso = 0; }
@@ -96,7 +92,7 @@
                         type: 'line',
                         color: '#F46C6F',
                         data: [
-                            @foreach($orderPeriodos as $v)
+                            @foreach($cuenta->periodos as $v)
                                 <?php
                                 $egreso = $v->egreso * -1;
                                 if(!is_numeric($egreso)) { $egreso = 0; }
@@ -110,8 +106,8 @@
                             enabled: true,
                             format: '${point.y:,.0f}', // one decimal
                         },
-                        @if($cuenta->tipo==0)
-                        visible : false
+                        @if($cuenta->id_tipo_cuenta==1)
+                            visible : false
                         @endif
                     }
                 ]

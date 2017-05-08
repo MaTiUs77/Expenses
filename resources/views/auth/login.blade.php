@@ -1,111 +1,87 @@
-@extends('angular')
-@section('title','Login')
-@section('body')
-<style>
-    html, body {
-        height: 100%;
-    }
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Finanzas - Login</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  {!! IAStyle('adminlte/bootstrap/css/bootstrap.min.css')!!}
+  <!-- Font Awesome -->
+  {!! IAStyle('adminlte/bootstrap/css/bootstrap.min.css')!!}
+  <!-- Theme style -->
+  {!! IAStyle('adminlte/dist/css/AdminLTE.min.css')!!}
+  <!-- iCheck -->
+  {!! IAStyle('adminlte/plugins/iCheck/square/blue.css')!!}
+  {!! IAStyle('assets/font-awesome/css/font-awesome.min.css') !!}
 
-    .vertical-center {
-        min-height: 100%;  /* Fallback for vh unit */
-        min-height: 100vh; /* You might also want to use
-                        'height' property instead.
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="#"><b>Finanzas</b> personales</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Credencial de acceso</p>
 
-                        Note that for percentage values of
-                        'height' or 'min-height' properties,
-                        the 'height' of the parent element
-                        should be specified explicitly.
+    <form action="{{ url('/atlogin') }}" method="post">
+      <div class="form-group has-feedback">
+        <input type="email" class="form-control" placeholder="Email" name="email" required>
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Password" name="password" required>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <label>
+              <input type="checkbox"> Recordarme
+            </label>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
 
-                        In this case the parent of '.vertical-center'
-                        is the <body> element */
-
-        /* Make it a flex container */
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-
-        /* Align the bootstrap's container vertically */
-        -webkit-box-align : center;
-        -webkit-align-items : center;
-        -moz-box-align : center;
-        -ms-flex-align : center;
-        align-items : center;
-
-        /* In legacy web browsers such as Firefox 9
-           we need to specify the width of the flex container */
-        width: 100%;
-
-        /* Also 'margin: 0 auto' doesn't have any effect on flex items in such web browsers
-           hence the bootstrap's container won't be aligned to the center anymore.
-
-           Therefore, we should use the following declarations to get it centered again */
-        -webkit-box-pack : center;
-        -moz-box-pack : center;
-        -ms-flex-pack : center;
-        -webkit-justify-content : center;
-        justify-content : center;
-    }
-</style>
-<div class="container vertical-center">
-    <div class="row">
-        <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Usuario</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}">
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Recordarme
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Ingresar
-                                </button>
-    <hr>
-                                <a class="btn btn-link" href="{{ url('/auth/password/reset') }}">Olvido su clave?</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <div class="social-auth-links text-center">
+      <p>- O -</p>
+      <a href="{{ url('auth/facebook') }}" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i>Ingresar con Facebook</a>
     </div>
+    <!-- /.social-auth-links -->
+
+  </div>
+  <!-- /.login-box-body -->
 </div>
-@endsection
+<!-- /.login-box -->
+
+<!-- jQuery 2.2.3 -->
+{!! IAScript('adminlte/plugins/jQuery/jquery-2.2.3.min.js')!!}
+<!-- Bootstrap 3.3.6 -->
+{!! IAScript('adminlte/bootstrap/js/bootstrap.min.js')!!}
+<!-- iCheck -->
+{!! IAScript('adminlte/plugins/iCheck/icheck.min.js')!!}
+<script>
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' // optional
+    });
+  });
+</script>
+</body>
+</html>

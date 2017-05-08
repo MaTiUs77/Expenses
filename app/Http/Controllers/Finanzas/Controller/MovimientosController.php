@@ -19,58 +19,38 @@ class MovimientosController extends Controller
         $cuentas = Cuentas::orderBy('orden', 'asc')->get();
 
         foreach($cuentas as $cuenta) {
-            $cuenta->periodos = Saldos::totalCuenta($cuenta->id);
-            $this->extendPeriod($cuenta);
+
+            $periodos = new PeriodosController($cuenta);
+            $cuenta->periodos = $periodos->getSaldos();
 
             $cuenta->movimientos = Movimientos::where('id_cuenta',$cuenta->id)
-                // ->orWhere('transfer_id_cuenta',$cuenta->id)
+                ->orWhere('transfer_id_cuenta',$cuenta->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
 
             foreach($cuenta->movimientos as $movimiento)
             {
                 $movimiento->createdCarbon = Carbon::parse($movimiento->created_at);
+                $movimiento->monthYear = ucfirst($movimiento->createdCarbon->formatLocalized('%B/%Y'));
                 $movimiento->futuro = false;
                 $movimiento->transfer = false;
-
-                //$theMonth = (int)$movimiento->createdCarbon->format('m');
 
                 if($movimiento->createdCarbon->diff($date->currentDate)->invert > 0 )
                 {
                     $movimiento->futuro = true;
                 }
             }
+
+            $lastPeriod = $cuenta->periodos->last();
+            $cuenta->actual = [
+                'ingreso' => $lastPeriod,
+                'egreso' => $lastPeriod
+            ];
         }
 
         $output = compact('cuentas','saldos','date');
 
         return $output;
-    }
-
-    private function extendPeriod(Cuentas $cuenta)
-    {
-        if(count($cuenta->periodos)) {
-
-            $ultimoPeriodo = null;
-
-            foreach ($cuenta->periodos as $periodo) {
-                $periodo->carbonDate = Carbon::create($periodo->anio, $periodo->mes, 1, 0, 0, 0);
-                $periodo->formatPeriodo = ucfirst($periodo->carbonDate->formatLocalized('%B/%Y'));
-                $periodo->humanMes = ucfirst($periodo->carbonDate->formatLocalized('%B'));
-            }
-
-            foreach ($cuenta->periodos->sortBy('carbonDate') as $periodo) {
-                if($ultimoPeriodo==null)
-                {
-                    $periodo->balance = $periodo->neto;
-                    $ultimoPeriodo = $periodo;
-                } else
-                {
-                    $periodo->balance = $periodo->neto + $ultimoPeriodo->balance;
-                    $ultimoPeriodo = $periodo;
-                }
-            }
-        }
     }
 
     private function dateHelpers()

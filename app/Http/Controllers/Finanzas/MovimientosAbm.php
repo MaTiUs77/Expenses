@@ -16,9 +16,14 @@ use Illuminate\Support\Facades\Validator;
 
 class MovimientosAbm extends MovimientosController
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $output = $this->UltimosMovimientos();
+        $output = $this->ultimosMovimientos();
         return view('finanzas.movimientos.index',$output);
     }
 
@@ -55,6 +60,17 @@ class MovimientosAbm extends MovimientosController
 
     public function store()
     {
+        $params = Input::all();
+        $categoria = Categorias::find(Input::get('id_categoria'));
+
+        if($categoria == null && is_string(Input::get('id_categoria'))) {
+            $newCategoria = new Categorias();
+            $newCategoria->categoria = Input::get('id_categoria');
+            $newCategoria->save();
+
+            $params['id_categoria'] = $newCategoria->id;
+        }
+
         $rules = array(
             'modo'  => 'required',
             'monto' => 'required|numeric',
@@ -62,35 +78,43 @@ class MovimientosAbm extends MovimientosController
             'id_categoria' => 'required|numeric'
         );
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make($params, $rules);
 
         if ($validator->fails()) {
             return redirect('movimientos/create')
                 ->withErrors($validator)
-                ->withInput(Input::all());
+                ->withInput($params);
         } else {
-            // store
-            $values =  Input::all();
-
-            if(isset($values['modo']) && $values['modo'] == 'E')
+            if(isset($params['modo']) && $params['modo'] == 'E')
             {
-                if($values['monto']>0)
+                if($params['monto']>0)
                 {
-                    $values['monto'] = ($values['monto'] * -1);
+                    $params['monto'] = ($params['monto'] * -1);
                 }
             }
 
-            $created_at = Carbon::parse($values['date_session']);
+            $created_at = Carbon::parse($params['date_session']);
 
-            $values['created_at'] = $created_at->toDateString();
+            $params['created_at'] = $created_at->toDateString();
 
-            $movimiento = Movimientos::create($values);
+            $movimiento = Movimientos::create($params);
             return redirect(route('movimientos.create'))->with('message','Movimiento creado con exito!');
         }
     }
 
     public function update($id)
     {
+        $params = Input::all();
+        $categoria = Categorias::find(Input::get('id_categoria'));
+
+        if($categoria == null && is_string(Input::get('id_categoria'))) {
+            $newCategoria = new Categorias();
+            $newCategoria->categoria = Input::get('id_categoria');
+            $newCategoria->save();
+
+            $params['id_categoria'] = $newCategoria->id;
+        }
+
         $rules = array(
             'modo'  => 'required',
             'monto' => 'required|numeric',
@@ -98,30 +122,27 @@ class MovimientosAbm extends MovimientosController
             'id_categoria' => 'required|numeric'
         );
 
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make($params, $rules);
 
         if ($validator->fails()) {
             return redirect('movimientos/'.$id.'/edit')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-            // store
-            // store
-            $values =  Input::all();
 
-            if(isset($values['modo']) && $values['modo'] == 'E')
+            if(isset($params['modo']) && $params['modo'] == 'E')
             {
-                if($values['monto']>0)
+                if($params['monto']>0)
                 {
-                    $values['monto'] = ($values['monto'] * -1);
+                    $params['monto'] = ($params['monto'] * -1);
                 }
             }
 
-            $created_at = Carbon::parse($values['date_session']);
+            $created_at = Carbon::parse($params['date_session']);
 
-            $values['created_at'] = $created_at->toDateString();
+            $params['created_at'] = $created_at->toDateString();
 
-            $movimiento = Movimientos::find($id)->update($values);
+            $movimiento = Movimientos::find($id)->update($params);
 
             return redirect('movimientos')->with('message','Movimiento actualizado con exito!');
         }

@@ -1,15 +1,11 @@
 @extends('adminlte/theme')
 @section('ng','app')
 @section('mini',false)
-@section('menutop')
-	@include('finanzas.common.menutop')
+@section('menuaside')
+	@include('finanzas.common.menuaside')
 @endsection
 @section('title','Crear usuario')
 @section('body')
-
-
-
-
     @if (Session::has('message'))
         <div class="alert alert-info">{{ Session::get('message') }}</div>
     @endif
@@ -72,9 +68,8 @@
 
                 <div class="form-group">
                     <div class="col-xs-8">
-                        <select class="form-control" name="id_categoria">
-                            <option value="" selected="selected">- Asignar categoria -</option>
-                            @foreach($categorias as $item)
+                        <select class="s2_categorias form-control" multiple="multiple" name="id_categoria">
+                            < @foreach($categorias as $item)
                                 <option value="{{ $item->id }}">{{ $item->categoria }}</option>
                             @endforeach
                         </select>
@@ -106,4 +101,23 @@
 
 
 @include('finanzas.movimientos.partial.footer')
+
+
+    <script>
+        $(function(){
+            $(".s2_categorias").select2({
+                tags: true,
+                placeholder: "Ingresar categoria",
+                maximumSelectionLength: 1,
+                language: {
+                    maximumSelected: function (e) {
+                        var t = "Solo se permite " + e.maximum + " categoria";
+                        e.maximum != 1 && (t += "s");
+                        return t;
+                    }
+                }
+            })
+        });
+
+    </script>
 @endsection

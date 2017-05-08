@@ -1,1 +1,0 @@
-phpdoc -d "c:\wamp\www\iaserver_laravel_svn\app\http\controllers" -t "c:\wamp\www\iaserver_laravel_svn\docs" --template="responsive-twig"

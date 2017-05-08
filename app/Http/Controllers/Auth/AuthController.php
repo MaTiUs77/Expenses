@@ -3,10 +3,12 @@
 namespace IAServer\Http\Controllers\Auth;
 
 use IAServer\User;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use IAServer\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Socialite;
 
 class AuthController extends Controller
 {
@@ -64,8 +66,33 @@ class AuthController extends Controller
         ]);
     }
 
-    public function redirectPath()
+	public function redirectToProvider($provider)
     {
-        return route('iaserver.home');
+        return Socialite::driver($provider)->redirect();
+    }
+	
+	public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+
+        $authUser = $this->findOrCreateUser($user, $provider);
+
+        Auth::login($authUser, true);
+        return redirect('/');
+    }
+	
+	public function findOrCreateUser($user, $provider)
+    {
+        $authUser = User::where('provider_id', $user->id)->first();
+        if ($authUser) {
+            return $authUser;
+        }
+        return User::create([
+            'name'     => $user->name,
+            'email'    => $user->email,
+            'provider' => $provider,
+            'provider_id' => $user->id,
+            'avatar' => $user->avatar
+        ]);
     }
 }

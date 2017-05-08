@@ -74,29 +74,6 @@ class Handler extends ExceptionHandler
             $e instanceof FatalErrorException
           )
         {
-            $this->emailSend('Matias','matius77@gmail.com',$messageArray);
-            $this->emailSend('Matias Flores','matias.flores@newsan.com.ar',$messageArray);
-
-            return response()->view('errors.exception', ['mensaje'=>$e->getMessage()], 500);
-        }
-
-        /*if($e instanceof \ErrorException)
-        {
-            $this->emailSend('Matias','matius77@gmail.com',$e);
-            $this->emailSend('Matias Flores','matias.flores@newsan.com.ar',$e);
-
-            return response()->view('errors.exception', ['mensaje'=>$e->getMessage()], 500);
-        }*/
-
-        if($e instanceof CogiscanExceptionHandler)
-        {
-            $this->emailSend('Matias','matius77@gmail.com',$messageArray);
-            $this->emailSend('Matias Flores','matias.flores@newsan.com.ar',$messageArray);
-
-            $this->emailSend('Diego Ezequiel Maidana Kobalc','Diego.Maidana@newsan.com.ar',$messageArray);
-            $this->emailSend('Jose Maria Casarotto','JoseMaria.Casarotto@newsan.com.ar',$messageArray);
-            $this->emailSend('Santiago Gabriel Romero','SantiagoGabriel.Romero@newsan.com.ar',$messageArray);
-
             return response()->view('errors.exception', ['mensaje'=>$e->getMessage()], 500);
         }
 
@@ -106,22 +83,5 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $e);
-    }
-
-    public function emailSend($toName,$toMail, Array $messageArray)
-    {
-        $ip = Request::server('REMOTE_ADDR');
-        $host = getHostByAddr(Request::server('REMOTE_ADDR'));
-        $message = array(
-            "data"=>$messageArray
-        );
-
-        try {
-            $email = new Email();
-            $email->send($toName,$toMail,'Exception',$message);
-        } catch (Exception $ex)
-        {
-            throw new EmailExceptionHandler("No fue posible enviar el correo de aviso de error",$ex->getMessage(),500);
-        }
     }
 }

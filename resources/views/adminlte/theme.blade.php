@@ -37,6 +37,10 @@
     {!! IAScript('assets/angularjs/toasty/angular-toasty.min.js') !!}
     <!-- Other styles -->
     {!! IAStyle('assets/loader_mini.css') !!}
+
+    {!! IAStyle('adminlte/plugins/select2/select2.min.css') !!}
+    {!! IAScript('adminlte/plugins/select2/select2.min.js') !!}
+
     <!-- AdminLTE App -->
     {!! IAStyle('adminlte/dist/css/AdminLTE.css') !!}
     {!! IAStyle('adminlte/dist/css/skins/skin-blue.min.css') !!}
@@ -89,11 +93,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <section class="content">
-        <div class="box">
-            <div class="box-body" id="ltebody">
               @yield('body')
-            </div>
-        </div>
     </section>
     <!-- /.content -->
   </div>

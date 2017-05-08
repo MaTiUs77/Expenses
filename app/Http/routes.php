@@ -1,6 +1,9 @@
 <?php
-// Usar la estructura de groups con prefix para definir las rutas.
-require('Controllers/IAserver/routes.php');
-require('Controllers/Email/routes.php');
 require('Controllers/Finanzas/routes.php');
 
+Route::auth();
+
+Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
+
+Route::get('/home', 'HomeController@index');
