@@ -30,7 +30,15 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Credencial de acceso</p>
+    <p class="login-box-msg">
+	
+	@if($errors->any())
+		<code>{{ $errors->first() }}</code>
+	@else
+		Credencial de acceso
+	@endif
+	
+	</p>
 
     <form action="{{ url('/atlogin') }}" method="post">
       <div class="form-group has-feedback">
@@ -45,7 +53,7 @@
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox"> Recordarme
+              <input type="checkbox" name="rememberme"> Recordarme
             </label>
           </div>
         </div>
