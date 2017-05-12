@@ -43,12 +43,12 @@
 
     <!-- AdminLTE App -->
     {!! IAStyle('adminlte/dist/css/AdminLTE.css') !!}
-    {!! IAStyle('adminlte/dist/css/skins/skin-blue.min.css') !!}
+    {!! IAStyle('adminlte/dist/css/skins/_all-skins.min.css') !!}
     {!! IAScript('adminlte/dist/js/app.min.js') !!}
 
   @yield('head')
 </head>
-<body class="hold-transition skin-blue @yield('mini','sidebar-mini') @yield('collapse','sidebar-collapse')" @hasSection('ng') ng-cloak @endif @yield('bodytag')>
+<body class="hold-transition skin-green @yield('mini','sidebar-mini') @yield('collapse','sidebar-collapse')" @hasSection('ng') ng-cloak @endif @yield('bodytag')>
 
 <div class="wrapper">
 

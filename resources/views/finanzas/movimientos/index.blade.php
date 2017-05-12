@@ -42,7 +42,7 @@
                 <?php $active = true; ?>
                 @foreach($cuentas as $cuenta)
                     <li class="{{ $active ? 'active' : '' }}">
-                        <a href="#{{ $cuenta->cuenta }}" aria-controls="{{ $cuenta->cuenta }}" role="tab" data-toggle="tab">{{ $cuenta->cuenta }}</a>
+                        <a href="#{{ str_slug($cuenta->cuenta) }}" aria-controls="{{ str_slug($cuenta->cuenta) }}" role="tab" data-toggle="tab">{{ $cuenta->cuenta }}</a>
                     </li>
                     <?php $active = false; ?>
                 @endforeach
@@ -53,7 +53,7 @@
                 <?php $active = true; ?>
 
                 @foreach($cuentas as $cuenta)
-                    <div class="tab-pane {{ $active ? 'active' : '' }}" id="{{ $cuenta->cuenta }}">
+                    <div class="tab-pane {{ $active ? 'active' : '' }}" id="{{ str_slug($cuenta->cuenta) }}">
                         <div class="panel panel-default" style="background-color: #{{ $cuenta->color }};">
                             <div class="panel-body">
                                 <div class="row">

@@ -69,7 +69,7 @@
                 <div class="form-group">
                     <div class="col-xs-8">
                         <select class="s2_categorias form-control" multiple="multiple" name="id_categoria">
-                            < @foreach($categorias as $item)
+                            @foreach($categorias as $item)
                                 <option value="{{ $item->id }}">{{ $item->categoria }}</option>
                             @endforeach
                         </select>
