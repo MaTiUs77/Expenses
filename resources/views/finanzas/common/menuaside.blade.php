@@ -6,10 +6,6 @@
             <li><a href="{{ route('movimientos.index') }}"><span class="fa fa-list"></span> Listar</a></li>
             <li><a href="{{ route('movimientos.create') }}"><span class="fa fa-plus"></span> Agregar</a></li>
 
-            <li class="header">Categorias</li>
-            <li><a href="{{ route('categorias.index') }}"><span class="fa fa-list"></span> Listar</a></li>
-            <li><a href="{{ route('categorias.create') }}"><span class="fa fa-plus"></span> Agregar</a></li>
-
             <li class="header">Cuentas</li>
         </ul>
 
