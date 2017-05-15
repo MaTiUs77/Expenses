@@ -16,7 +16,7 @@ class MovimientosController extends Controller
         setlocale(LC_TIME, 'Spanish');
 
         $date = $this->dateHelpers();
-        $cuentas = Cuentas::orderBy('orden', 'asc')->get();
+        $cuentas = Cuentas::withShare()->get();
 
         foreach($cuentas as $cuenta) {
 

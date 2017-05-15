@@ -10,6 +10,8 @@ use IAServer\Http\Controllers\Finanzas\Model\Movimientos;
 use IAServer\Http\Controllers\IAServer\Filter;
 use IAServer\Http\Controllers\IAServer\Util;
 use IAServer\Http\Requests;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -37,8 +39,8 @@ class MovimientosAbm extends MovimientosController
         $fecha = Util::dateToEn(Session::get('date_session'));
 
         $movimiento = Movimientos::find($id);
-        $cuentas = Cuentas::orderBy('orden','asc')->get();
-        $categorias = Categorias::orderBy('categoria','asc')->get();
+        $cuentas = Cuentas::withShare()->get();
+        $categorias = Categorias::withShare()->get();
 
         $output = compact('movimiento','categorias','cuentas');
 
@@ -50,9 +52,8 @@ class MovimientosAbm extends MovimientosController
     {
         Filter::dateSession();
         $fecha = Util::dateToEn(Session::get('date_session'));
-
-        $cuentas = Cuentas::orderBy('orden','asc')->get();
-        $categorias = Categorias::orderBy('categoria','asc')->get();
+        $cuentas = Cuentas::withShare()->get();
+        $categorias = Categorias::withShare()->get();
         $output = compact('categorias','cuentas');
 
         return view('finanzas.movimientos.create',$output);
@@ -61,11 +62,13 @@ class MovimientosAbm extends MovimientosController
     public function store()
     {
         $params = Input::all();
-        $categoria = Categorias::find(Input::get('id_categoria'));
+
+        $categoria = Categorias::findWithShare(Input::get('id_categoria'));
 
         if($categoria == null && is_string(Input::get('id_categoria'))) {
             $newCategoria = new Categorias();
             $newCategoria->categoria = Input::get('id_categoria');
+            $newCategoria->id_owner = Auth::user()->id;
             $newCategoria->save();
 
             $params['id_categoria'] = $newCategoria->id;
@@ -105,11 +108,12 @@ class MovimientosAbm extends MovimientosController
     public function update($id)
     {
         $params = Input::all();
-        $categoria = Categorias::find(Input::get('id_categoria'));
+        $categoria = Categorias::findWithShare(Input::get('id_categoria'));
 
         if($categoria == null && is_string(Input::get('id_categoria'))) {
             $newCategoria = new Categorias();
             $newCategoria->categoria = Input::get('id_categoria');
+            $newCategoria->id_owner = Auth::user()->id;
             $newCategoria->save();
 
             $params['id_categoria'] = $newCategoria->id;
