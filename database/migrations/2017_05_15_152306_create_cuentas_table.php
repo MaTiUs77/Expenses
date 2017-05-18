@@ -18,8 +18,8 @@ class CreateCuentasTable extends Migration {
 			$table->string('cuenta', 45);
 			$table->smallInteger('orden')->unsigned();
 			$table->string('color', 8)->default('FF0000');
-			$table->boolean('id_tipo_cuenta')->nullable()->default(0);
-			$table->integer('debito_id_cuenta')->unsigned()->nullable();
+			$table->integer('id_tipo_cuenta')->nullable()->default(0);
+			$table->integer('debito_id_cuenta')->unsigned();
 			$table->integer('id_owner')->unsigned();
 		});
 	}

@@ -57,11 +57,15 @@ class MovimientosController extends Controller
     {
         $currentDate = Carbon::now();
         $nextMonth = Carbon::now()->addMonth(1);
+        $lastMonth = Carbon::now()->subMonth(1);
 
         $date = (object)[
+            'lastMonth' => $lastMonth,
+            'lastMonthFormated' => ucfirst($lastMonth->formatLocalized('%B de %Y')),
             'currentDate' => $currentDate,
+            'currentMonthFormated' => ucfirst($currentDate->formatLocalized('%B de %Y')),
             'nextMonth' => $nextMonth,
-            'currentMonthFormated' => ucfirst($currentDate->formatLocalized('%B de %Y'))
+            'nextMonthFormated' => ucfirst($nextMonth->formatLocalized('%B de %Y'))
         ];
 
         return $date;

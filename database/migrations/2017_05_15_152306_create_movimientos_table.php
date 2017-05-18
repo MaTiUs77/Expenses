@@ -19,11 +19,12 @@ class CreateMovimientosTable extends Migration {
 			$table->integer('id_categoria')->unsigned();
 			$table->string('moneda', 4)->default('ARS');
 			$table->float('monto', 10, 0);
-			$table->string('modo');
+			$table->string('modo',1);
 			$table->text('nota', 65535)->nullable();
-			$table->string('modo_pago')->default('E');
+			$table->string('modo_pago',1)->default('E');
 			$table->integer('transfer_id_cuenta')->unsigned()->nullable();
-			$table->timestamps();
+			$table->dateTime('created_at');
+			$table->dateTime('updated_at');
 		});
 	}
 
