@@ -57,7 +57,7 @@ return [
             'host'      => 'localhost',
             'database'  => 'finanzas',
             'username'  => 'finanzas',
-            'password'  => 'MysqlFinanzas',
+            'password'  => 'futur0',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
